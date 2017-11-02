@@ -48,6 +48,6 @@ int main()
 	{
 		cout << "false" << endl;
 	}
-	delete stack;
+	deleteStack(stack);
 	return 0;
 }
