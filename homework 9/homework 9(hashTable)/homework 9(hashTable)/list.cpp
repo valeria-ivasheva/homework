@@ -1,5 +1,19 @@
 #include "list.h"
 #include <iostream>
+#include <string>
+using namespace std;
+
+struct ListElement
+{
+	string word;
+	int count;
+	ListElement* next;
+};
+
+struct List
+{
+	ListElement *head;
+};
 
 List* createList()
 {
@@ -20,59 +34,61 @@ void deleteList(List *list)
 	delete list;
 }
 
-void insert(List *list, int number)
+bool isIncludeList(List* list, std::string element)
 {
-	if ((list->head == nullptr) || (list->head->value > number))
+	if (list->head == nullptr)
 	{
-		ListElement *newElement = new ListElement{ number, list->head };
+		return false;
+	}
+	ListElement* nowElement = list->head;
+	while (nowElement->next != nullptr && element.compare(nowElement->word) != 0)
+	{
+		nowElement = nowElement->next;
+	}
+	return element.compare(nowElement->word) == 0;
+}
+
+
+void insert(List *list, string element)
+{
+	if (!isIncludeList(list, element))
+	{
+		ListElement *newElement = new ListElement{ element, 0, list->head };
 		list->head = newElement;
 	}
 	else
 	{
 		ListElement *temp = list->head;
-		while ((temp->next != nullptr) && temp->next->value < number)
+		while (temp->word.compare(element) != 0)
 		{
 			temp = temp->next;
 		}
-		ListElement *newElement = new ListElement{ number, temp->next };
-		temp->next = newElement;
+		temp->count++;
 	}
 }
 
 void printList(List *list)
 {
 	ListElement *temp = list->head;
-	if (temp == nullptr)
-	{
-		printf("%s\n", "Список пустой");
-	}
 	while (temp != nullptr)
 	{
-		printf("%d\n", temp->value);
+		printf("%s%s%d\n", temp->word, " ", temp->count);
 		temp = temp->next;
 	}
 }
 
-void deleteElement(List *list, int number)
+int sizeList(List* list)
 {
-	ListElement *temp = list->head;
-	if (temp != nullptr)
+	if (list->head == nullptr)
 	{
-		if (temp->value == number)
-		{
-			list->head = temp->next;
-			delete temp;
-			return;
-		}
-		while ((temp->next != nullptr) && (temp->next->value != number))
-		{
-			temp = temp->next;
-		}
-		if (temp->next != nullptr)
-		{
-			ListElement *nowDelete = temp->next;
-			temp->next = nowDelete->next;
-			delete nowDelete;
-		}
+		return 0;
 	}
+	ListElement* nowElement = list->head;
+	int result = 0;
+	while (nowElement->next != nullptr)
+	{
+		nowElement = nowElement->next;
+		result++;
+	}
+	return result;
 }

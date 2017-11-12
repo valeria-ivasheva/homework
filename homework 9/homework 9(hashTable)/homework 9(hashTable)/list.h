@@ -1,24 +1,19 @@
 #pragma once
 
-struct ListElement
-{
-	int value;
-	ListElement* next;
-};
+struct ListElement;
 
-struct List
-{
-	ListElement *head;
-};
+struct List;
 
 // Создаем пустой список
 List* createList();
 
 // Добавляем элемент value в список
-void insert(List *list, int value);
+void insert(List *list, std::string element);
 
-// Удаляем элемент value из списка
-void deleteElement(List *list, int value);
+bool isIncludeList(List* list, std::string element);
+
+// Количество элементов в списке
+int sizeList(List* list);
 
 // Выводим весь список
 void printList(List *list);
