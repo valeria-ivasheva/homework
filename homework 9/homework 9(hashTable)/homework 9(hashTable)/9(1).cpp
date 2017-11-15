@@ -12,6 +12,7 @@ int main()
 	}
 	fclose(text);
 	printHash(hash);
+	characteristicHash(hash);
 	deleteHash(hash);
 	system("pause");
 	return 0;

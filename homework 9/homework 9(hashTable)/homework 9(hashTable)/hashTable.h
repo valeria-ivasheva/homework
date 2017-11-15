@@ -18,5 +18,8 @@ void deleteHash(HashTable* hash);
 //Проверка наличия элемента в таблице
 bool isInclude(HashTable* hash, char element[100]);
 
-//
+//Распечатать таблицу
 void printHash(HashTable* hash);
+
+//Вывести характеристику хэш-таблицы
+void characteristicHash(HashTable* hash);

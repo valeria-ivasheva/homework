@@ -107,7 +107,7 @@ int sizeList(List* list)
 		return 0;
 	}
 	ListElement* nowElement = list->head;
-	int result = 0;
+	int result = 1;
 	while (nowElement->next != nullptr)
 	{
 		nowElement = nowElement->next;
