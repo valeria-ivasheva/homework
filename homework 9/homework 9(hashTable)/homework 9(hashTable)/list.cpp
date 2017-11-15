@@ -95,7 +95,7 @@ void printList(List *list)
 	ListElement *temp = list->head;
 	while (temp != nullptr)
 	{
-		printf("%s%s%d\n", temp->word, " ", temp->count);
+		std::cout << temp->word << " " << temp->count << "\n";
 		temp = temp->next;
 	}
 }

@@ -5,7 +5,7 @@ int main()
 {
 	FILE *text = fopen("text.txt", "r");
 	HashTable* hash = makeHashTable();
-	std::string word = "";
+	char word[100] = "";
 	while (fscanf(text, "%s", word) != EOF)
 	{
 		addElement(hash, word);

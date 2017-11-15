@@ -7,16 +7,16 @@ struct HashTable;
 HashTable* makeHashTable();
 
 //Добавить элемент в хэш-таблицу
-void addElement(HashTable* hash, std::string& element);
+void addElement(HashTable* hash, char element[100]);
 
 //Удалить элемент из таблицы
-void deleteElement(HashTable* hash, std::string& element);
+void deleteElement(HashTable* hash, char element[100]);
 
 //Удалить таблицу
 void deleteHash(HashTable* hash);
 
 //Проверка наличия элемента в таблице
-bool isInclude(HashTable* hash, std::string& element);
+bool isInclude(HashTable* hash, char element[100]);
 
 //
 void printHash(HashTable* hash);
