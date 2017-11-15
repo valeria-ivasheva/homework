@@ -14,6 +14,5 @@ int main()
 	printHash(hash);
 	characteristicHash(hash);
 	deleteHash(hash);
-	system("pause");
 	return 0;
 }
