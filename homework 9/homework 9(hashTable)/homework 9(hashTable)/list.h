@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 
 struct ListElement;
 
@@ -10,7 +12,11 @@ List* createList();
 // Добавляем элемент value в список
 void insert(List *list, std::string element);
 
+//
 bool isIncludeList(List* list, std::string element);
+
+//
+void deleteElementList(List* list, std::string element);
 
 // Количество элементов в списке
 int sizeList(List* list);

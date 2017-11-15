@@ -53,7 +53,7 @@ void insert(List *list, string element)
 {
 	if (!isIncludeList(list, element))
 	{
-		ListElement *newElement = new ListElement{ element, 0, list->head };
+		ListElement *newElement = new ListElement{ element, 1, list->head };
 		list->head = newElement;
 	}
 	else
@@ -65,6 +65,29 @@ void insert(List *list, string element)
 		}
 		temp->count++;
 	}
+}
+
+void deleteElementList(List* list, std::string element)
+{
+	if (isIncludeList(list, element))
+	{
+		return;
+	}
+	ListElement *temp = list->head;
+	if (temp->word.compare(element) == 0)
+	{
+		list->head = temp->next;
+		delete temp;
+		return;
+	}
+	while (temp->next->word.compare(element) != 0)
+	{
+		temp = temp->next;
+	}
+	ListElement *delListElement = temp->next;
+	temp->next = delListElement->next;
+	delete delListElement;
+	return;
 }
 
 void printList(List *list)
