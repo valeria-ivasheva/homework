@@ -93,30 +93,6 @@ void printList(List *list)
 	}
 }
 
-/*void deleteElement(List *list, int number)
-{
-	ListElement *temp = list->head;
-	if (temp != nullptr)
-	{
-		if (temp->value == number)
-		{
-			list->head = temp->next;
-			delete temp;
-			return;
-		}
-		while ((temp->next != nullptr) && (temp->next->value != number))
-		{
-			temp = temp->next;
-		}
-		if (temp->next != nullptr)
-		{
-			ListElement *nowDelete = temp->next;
-			temp->next = nowDelete->next;
-			delete nowDelete;
-		}
-	}
-}*/
-
 bool haveElement(List* list, char key)
 {
 	int count = countElementList(list);
@@ -143,16 +119,4 @@ int numberOfJump(List* list, char key)
 		i--;
 	}
 	return listIndex(list, i)->value;
-}
-
-bool isSymmetry(List* list)
-{
-	int count = countElementList(list);
-	int i = 1;
-	while (i*2 <= count && listIndex(list, i)->value == listIndex(list, count - i + 1)->value)
-	{
-
-		i++;
-	}
-	return i * 2 >= count;
 }

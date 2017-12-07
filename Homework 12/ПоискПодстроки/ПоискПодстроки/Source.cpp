@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void stopSymbol(List* list, char string[100])
+void stopSymbol(List* list, char *string)
 {
 	int length = strlen(string);
 	for (int i = length - 2; i >= 0; i--)
@@ -16,6 +16,35 @@ void stopSymbol(List* list, char string[100])
 	insert(list, '@', length);
 }
 
+int algBMX(char *string, char *findString)
+{
+	List* list = createList();
+	stopSymbol(list, findString);
+	int i = strlen(findString) - 1;
+	int lengthFind = strlen(findString);
+	int lengthStrinf = strlen(string);
+	while (i < lengthStrinf)
+	{
+		int j = 0;
+		while (i < lengthStrinf &&j < lengthFind && findString[lengthFind - j - 1] == string[i - j])
+		{
+			j++;
+		}
+		if (j == lengthFind)
+		{
+			deleteList(list);
+			return i - lengthFind + 2;
+		}
+		char key = string[i];
+		if (!haveElement(list, key))
+		{
+			key = '@';
+		}
+		i += numberOfJump(list, key);
+	}
+	deleteList(list);
+	return -1;
+}
 
 int main()
 {
@@ -29,34 +58,15 @@ int main()
 	char findString[100] = "";
 	cin >> findString;
 	bool findNot = true;
-	List* list = createList();
 	int countLine = 0;
-	stopSymbol(list, findString);
-	while  (findNot && (fgets(string, 200, text) != nullptr))
+	int pos = -1;
+	while (findNot && (fgets(string, 200, text) != nullptr))
 	{
 		countLine++;
-		int i = strlen(findString) - 1;
-		int lengthFind = strlen(findString);
-		int lengthStrinf = strlen(string);
-		while (i < lengthStrinf)
-		{
-			int j = 0;
-			while (i <lengthStrinf &&j < lengthFind && findString[lengthFind - j - 1] == string[i - j])
-			{
-				j++;
-			}
-			if (j == lengthFind)
-			{
-				cout << "Совпадение с " << countLine << "строка от " << i - lengthFind + 2 << " символа " ;
-				return 0;
-			}
-			char key = string[i];
-			if (!haveElement(list, key))
-			{
-				key = '@';
-			}
-			i += numberOfJump(list, key);
-		}
+		pos = algBMX(string, findString);
+		findNot = pos == -1;
 	}
+	fclose(text);
+	cout << "Первое вхождение " << countLine << " строка от " << pos << " символа ";
 	return 0;
 }

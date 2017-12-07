@@ -10,13 +10,10 @@ List* createList();
 // Добавляем элемент value в список
 void insert(List *list, char key, int value);
 
-// Удаляем элемент value из списка
-//void deleteElement(List *list, char key);
-
-//
+//Проверка существования элемента в списке
 bool haveElement(List* list, char key);
 
-// 
+// Количество прыжка для символа( алгоритм Бойера-Мура-Хорспула)
 int numberOfJump(List* list, char key);
 
 // Выводим весь список
@@ -24,6 +21,3 @@ void printList(List *list);
 
 // Удаляем список
 void deleteList(List *list);
-
-//Проверка на симметрию
-bool isSymmetry(List* list);
