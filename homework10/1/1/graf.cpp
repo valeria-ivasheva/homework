@@ -45,6 +45,10 @@ int main()
 {
 	int arrayOfRoads[100][100] = { 0 };
 	FILE *text = fopen("text.txt", "r");
+	if (text == nullptr)
+	{
+		cout << "Don't open file" << endl;
+	}
 	int arrayOfState[2][100] = { 0 };
 	int countOfCity = 0;
 	int countOfRoads = 0;
