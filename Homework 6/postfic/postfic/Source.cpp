@@ -44,7 +44,8 @@ void postfic(char symbol, Stack *stack)
 		}
 		else
 		{
-			int a = 0; int b = 0;
+			int a = 0; 
+			int b = 0;
 			if (!isEmpty(stack))
 			{
 				b = pop(stack);
@@ -90,6 +91,6 @@ int main()
 	{
 		cout << "Это равно " << pop(stack) << endl;
 	}
-	delete stack;
+	deleteStack(stack);
 	return 0;
 }
