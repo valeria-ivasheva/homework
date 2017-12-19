@@ -32,6 +32,7 @@ int pop(Stack *stack)
 		stack->head = newHead;
 		return val;
 	}
+	return -1;
 }
 
 bool isEmpty(Stack *stack)
