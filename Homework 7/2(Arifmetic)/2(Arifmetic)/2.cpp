@@ -6,6 +6,10 @@ using namespace std;
 int main()
 {
 	FILE *tree = fopen("arifmeticTree.txt", "r");
+	if (tree == nullptr)
+	{
+		cout << "Don't open file" << endl;
+	}
 	Node* node = createNode();
 	while (!feof(tree))
 	{
@@ -40,10 +44,11 @@ int main()
 			node = insertNode(node, element);
 		}
 	}
+	fclose(tree);
 	printNode(node);
 	cout << endl;
 	int result = resultNode(node);
 	printf("%s%d\n", "Result ", result);
-	node = deleteAllNode(node);
+	deleteNode(node);
 	return 0;
 }

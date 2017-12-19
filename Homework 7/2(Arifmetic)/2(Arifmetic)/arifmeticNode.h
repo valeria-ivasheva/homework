@@ -9,7 +9,7 @@ Node *createNode();
 Node *insertNode(Node *node, char newElement[5]);
 
 //Удалить дерево
-Node* deleteAllNode(Node* tree);
+void deleteNode(Node* node);
 
 //Вернуть родителя
 Node* parent(Node* node);

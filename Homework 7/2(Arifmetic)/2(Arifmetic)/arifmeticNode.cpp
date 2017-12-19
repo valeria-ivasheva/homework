@@ -1,5 +1,5 @@
 #include "arifmeticNode.h"
-#include<iostream>
+#include <iostream>
 #include <stdlib.h>
 
 struct Node
@@ -25,6 +25,7 @@ bool isOperation(char string[5])
 {
 	return (string[0] == '-' || string[0] == '+' || string[0] == '*' || string[0] == '/');
 }
+
 Node *insertNode(Node *node, char newElement[5])
 {
 	Node* nodeNew = new Node;
@@ -32,16 +33,17 @@ Node *insertNode(Node *node, char newElement[5])
 	{
 		nodeNew->value[i] = 0;
 	}
-	for (int i = 0; i < strlen(newElement); i++)
-	{
-		nodeNew->value[i] = newElement[i];
-	}
+	// (int i = 0; i < strlen(newElement); i++)
+	//{
+	//	nodeNew->value[i] = newElement[i];
+	//}
+	strcpy(nodeNew->value, newElement);
 	nodeNew->leftChild = nullptr;
 	nodeNew->rightChild = nullptr;
 	nodeNew->parent = node;
 	if (node == nullptr)
 	{
-		return node = nodeNew;
+		return nodeNew;
 	}
 	else if (node->leftChild == nullptr)
 	{
@@ -52,7 +54,8 @@ Node *insertNode(Node *node, char newElement[5])
 		}
 		else
 		{
-			return node->leftChild = nodeNew;
+			node->leftChild = nodeNew;
+			return nodeNew;
 		}
 	}
 	else
@@ -88,7 +91,7 @@ Node* deleteAllNode(Node* node)
 	}
 	if (node->parent == nullptr)
 	{
-		delete node->value;
+		strcpy(node->value, 0);
 		return node;
 	}
 	node = node->parent;
@@ -173,4 +176,15 @@ int resultNode(Node* node)
 		return arifmarithmetic(node->value[0], resultNode(node->leftChild), resultNode(node->rightChild));
 	}
 	return atoi(node->value);
+}
+
+void deleteNode(Node* node)
+{
+	if (node != nullptr)
+	{
+		node->parent = nullptr;
+		deleteNode(node->leftChild);
+		deleteNode(node->rightChild);
+		delete node;
+	}
 }
