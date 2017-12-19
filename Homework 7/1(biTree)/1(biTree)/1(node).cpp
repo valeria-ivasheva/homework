@@ -63,11 +63,13 @@ int main()
 		case 4:
 		{
 			printSortAssendingTree(tree);
+			cout << endl;
 			break;
 		}
 		case 5:
 		{
 			printSortDescendingTree(tree);
+			cout << endl;
 			break;
 		}
 		case 0:
