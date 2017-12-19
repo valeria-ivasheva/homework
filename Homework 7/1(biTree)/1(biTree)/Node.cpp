@@ -1,5 +1,6 @@
 #include "Node.h"
 #include<iostream>
+
 struct Node
 {
 	int value;
@@ -7,10 +8,16 @@ struct Node
 	Node* rightChild;
 };
 
-Node *createNode()
+struct BiTree
 {
-	Node* node = {};
-	return node;
+	Node* root;
+};
+
+BiTree *createTree()
+{
+	BiTree* tree = new BiTree;
+	tree->root = nullptr;
+	return tree;
 }
 
 Node *searchElementNode(Node* node, int searchElement)
@@ -29,7 +36,16 @@ Node *searchElementNode(Node* node, int searchElement)
 	}
 }
 
-Node *insertNode(Node *node, int newElement)
+bool searchElement(BiTree* tree, int element)
+{
+	if (tree == nullptr)
+	{
+		return false;
+	}
+	return (searchElementNode(tree->root, element) != nullptr);
+}
+
+void insertNode(Node *&node, int newElement)
 {
 	if (node == nullptr)
 	{
@@ -42,36 +58,67 @@ Node *insertNode(Node *node, int newElement)
 	{
 		if (newElement < node->value)
 		{
-			node->leftChild = insertNode(node->leftChild, newElement);
+			insertNode(node->leftChild, newElement);
 		}
 		else
 		{
-			node->rightChild = insertNode(node->rightChild, newElement);
+			insertNode(node->rightChild, newElement);
 		}
 	}
-	return node;
+	return;
 }
+
+BiTree *insertTree(BiTree* tree, int element)
+{
+	insertNode(tree->root, element);
+	return tree;
+}
+
 
 void printSortAssending(Node *node)
 {
 	if (node == nullptr)
 	{
+		printf("%s\n", "Список пуст");
 		return;
 	}
-	printSortAssending(node->leftChild);
+	if (node->leftChild != nullptr)
+	{
+		printSortAssending(node->leftChild);
+	}
 	printf("%d%s", node->value, " ");
-	printSortAssending(node->rightChild);
+	if (node->rightChild != nullptr)
+	{
+		printSortAssending(node->rightChild);
+	}
+}
+
+void printSortAssendingTree(BiTree *tree)
+{
+	printSortAssending(tree->root);
 }
 
 void printSortDescending(Node *node)
 {
 	if (node == nullptr)
 	{
+		printf("%s\n", "Список пуст");
 		return;
 	}
-	printSortDescending(node->rightChild);
+	if (node->rightChild != nullptr)
+	{
+		printSortDescending(node->rightChild);
+	}
 	printf("%d%s", node->value, " ");
-	printSortDescending(node->leftChild);
+	if (node->leftChild != nullptr)
+	{
+		printSortDescending(node->leftChild);
+	}
+}
+
+void printSortDescendingTree(BiTree *tree)
+{
+	printSortDescending(tree->root);
 }
 
 Node* minimum(Node* node)
@@ -104,21 +151,38 @@ Node* deleteNode(Node* node, int element)
 	}
 	else if (node->leftChild == nullptr)
 	{
+		Node* temp = node;
 		node = node->rightChild;
+		delete temp;
 	}
 	else
 	{
+		Node* temp = node;
 		node = node->leftChild;
+		delete temp;
 	}
 	return node;
 }
 
-Node* deleteAllNode(Node* node)
+void deleteAllTree(BiTree* tree)
 {
-	while (node != nullptr)
+	while (tree->root != nullptr)
 	{
-		node = deleteNode(node, node->value);
+		tree = deleteNodeTree(tree, tree->root->value);
 	}
-	return node;
+	delete tree;
+	return;
 }
 
+BiTree* deleteNodeTree(BiTree* tree, int element)
+{
+	if (!searchElement(tree, element))
+	{
+		return tree;
+	}
+	if (tree != nullptr)
+	{
+		tree->root = deleteNode(tree->root, element);
+	}
+	return tree;
+}

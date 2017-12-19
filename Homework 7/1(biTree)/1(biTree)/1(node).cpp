@@ -17,7 +17,7 @@ void keyRule()
 int main()
 {
 	int key = 1;
-	Node *tree = createNode();
+	BiTree *tree = createTree();
 	setlocale(LC_ALL, "Russian");
 	keyRule();
 	while (key != 0)
@@ -31,9 +31,9 @@ int main()
 			int newElement = 0;
 			cout << "Введите элемент, который хотите добавить\n";
 			cin >> newElement;
-			if (searchElementNode(tree, newElement) == nullptr)
+			if (!searchElement(tree, newElement))
 			{
-				tree = insertNode(tree, newElement);
+				tree = insertTree(tree, newElement);
 			}
 			break;
 		}
@@ -42,7 +42,7 @@ int main()
 			int element = 0;
 			cout << "Введите элемент, который хотите удалить\n";
 			cin >> element;
-			tree = deleteNode(tree, element);
+			tree = deleteNodeTree(tree, element);
 			break;
 		}
 		case 3:
@@ -50,7 +50,7 @@ int main()
 			int element = 0;
 			cout << "Введите элемент для проверки вхождения во множество\n";
 			cin >> element;
-			if (searchElementNode(tree, element) == nullptr)
+			if (!searchElement(tree, element))
 			{
 				printf("%s", "НЕТ\n");
 			}
@@ -62,12 +62,12 @@ int main()
 		}
 		case 4:
 		{
-			printSortAssending(tree);
+			printSortAssendingTree(tree);
 			break;
 		}
 		case 5:
 		{
-			printSortDescending(tree);
+			printSortDescendingTree(tree);
 			break;
 		}
 		case 0:
@@ -81,7 +81,6 @@ int main()
 		}
 		}
 	}
-	tree = deleteAllNode(tree);
-	delete tree;
+	deleteAllTree(tree);
 	return 0;
 }

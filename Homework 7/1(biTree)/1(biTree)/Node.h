@@ -1,24 +1,26 @@
 #pragma once
 
+struct BiTree;
+
 struct Node;
 
 //Создать дерево
-Node *createNode();
+BiTree *createTree();
 
 //Найти элемент в дереве
-Node *searchElementNode(Node* node, int searchElement);
+bool searchElement(BiTree* node, int searchElement);
 
 //Вставить элемент в дерево
-Node *insertNode(Node *node, int newElement);
+BiTree *insertTree(BiTree* tree, int element);
 
 //Удалить элемент из дерева
-Node* deleteNode(Node* node, int element);
+BiTree* deleteNodeTree(BiTree* tree, int element);
 
 //Распечатать элементы дерева по возрастанию
-void printSortAssending(Node *node);
+void printSortAssendingTree(BiTree *node);
 
 //Распечатать по убыванию
-void printSortDescending(Node *node);
+void printSortDescendingTree(BiTree *node);
 
 //Удалить дерево
-Node* deleteAllNode(Node* tree);
+void deleteAllTree(BiTree* tree);
