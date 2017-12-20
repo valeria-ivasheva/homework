@@ -8,7 +8,7 @@ Node *createNode();
 //Вставить элемент в дерево
 Node *insertNode(Node *node, char newElement[5]);
 
-//Удалить дерево
+//Удалить дерево 
 void deleteNode(Node* node);
 
 //Вернуть родителя
