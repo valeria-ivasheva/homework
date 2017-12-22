@@ -14,7 +14,7 @@ enum class Status
 	fail
 };
 
-Status integerPartFun( char ch)
+Status integerPartFun(char ch)
 {
 	Status result = Status::fail;
 	if (ch == 'E')
@@ -62,7 +62,7 @@ Status afterEFun(char ch)
 
 int main()
 {
-	string str = "12.1";
+	string str = "1";
 	int i = 0;
 	Status state = Status::start;
 	while (str[i] != '\0')
@@ -147,7 +147,7 @@ int main()
 			break;
 		}
 	}
-	if (state != Status::fail  && state != Status::start)
+	if (state == Status::integerPart || state == Status::power || state == Status::fractionalPart)
 	{
 		cout << "String is right" << endl;
 	}
