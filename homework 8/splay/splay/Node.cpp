@@ -19,6 +19,10 @@ struct Tree
 void zig(Node* node)
 {
 	Node* parent = node->parent;
+	if (parent == nullptr)
+	{
+		return;
+	}
 	if (node->parent->leftChild == node)
 	{
 		Node* temp = node->rightChild;
@@ -26,6 +30,10 @@ void zig(Node* node)
 		node->rightChild = parent;
 		parent->parent = node;
 		parent->leftChild = temp;
+		if (temp != nullptr)
+		{
+			temp->parent = parent;
+		}
 		return;
 	}
 	Node* temp = node->leftChild;
@@ -33,9 +41,13 @@ void zig(Node* node)
 	node->leftChild = parent;
 	parent->parent = node;
 	parent->rightChild = temp;
+	if (temp != nullptr)
+	{
+		temp->parent = parent;
+	}
 }
 
-void zigzig(Node* node)
+void zigZig(Node* node)
 {
 	Node* grandparent = node->parent->parent;
 	if (grandparent->parent != nullptr)
@@ -63,7 +75,6 @@ void zigzig(Node* node)
 	node->parent->leftChild = grandparent;
 	grandparent->rightChild = temp;
 	zig(node);
-	return;
 }
 
 void zigzag(Node* node)
@@ -112,7 +123,7 @@ void splay(Tree* tree, Node* node)
 	bool isZigzig = (grandparent->leftChild == parent && parent->leftChild == node) || (grandparent->rightChild == parent && parent->rightChild == node);
 	if (isZigzig)
 	{
-		zigzig(node);
+		zigZig(node);
 		splay(tree, node);
 		tree->root = node;
 		return;
@@ -164,7 +175,7 @@ void insertValueParent(Node* node, Node* parent, const string &key, const string
 	}
 }
 
-Node* findNode(Node* &node, const string &key)
+Node* findNode(Node* node, const string &key)
 {
 	if (node == nullptr)
 	{
