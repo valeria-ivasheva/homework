@@ -17,7 +17,6 @@ struct Stack
 Stack* createStack()
 {
 	Stack* stack = new Stack{};
-	stack->maxKey = -1;
 	return stack;
 }
 
@@ -27,6 +26,10 @@ void enqueue(Stack *stack, int key, int value)
 	newElement->key = key;
 	newElement->value = value;
 	newElement->next = stack->head;
+	if (stack->head = nullptr)
+	{
+		stack->maxKey = key;
+	}
 	stack->head = newElement;
 	if (key > stack->maxKey)
 	{
@@ -39,7 +42,7 @@ int maxKeyStack(Stack* stack)
 {
 	if (stack->head == nullptr)
 	{
-		return -1;
+		return INT_MIN;
 	}
 	StackElement* now = stack->head;
 	int result = now->key;
@@ -57,7 +60,7 @@ int maxKeyStack(Stack* stack)
 int dequeue(Stack *stack)
 {
 	int result = -1;
-	if (stack->maxKey == -1)
+	if (stack->head == nullptr)
 	{
 		return result;
 	}
@@ -96,6 +99,7 @@ void printStack(Stack *stack)
 		printf("%d%s", now->value, " ");
 		now = now->next;
 	}
+	printf("\n");
 }
 
 bool isEmpty(Stack *stack)
