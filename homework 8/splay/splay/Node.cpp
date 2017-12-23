@@ -61,25 +61,21 @@ void zigZig(Node* node)
 			grandparent->parent->rightChild = node;
 		}
 	}
-	node->parent->parent = grandparent->parent;
-	grandparent->parent = node->parent;
-	if (node->parent->leftChild == node)
-	{
-		Node* temp = node->parent->rightChild;
-		node->parent->rightChild = grandparent;
-		grandparent->leftChild = temp;
-		zig(node);
-		return;
-	}
-	Node* temp = node->parent->leftChild;
-	node->parent->leftChild = grandparent;
-	grandparent->rightChild = temp;
+	zig(node->parent);
 	zig(node);
 }
 
-void zigzag(Node* node)
+void zigZag(Node* node)
 {
 	Node* grandparent = node->parent->parent;
+	if (grandparent->leftChild == node->parent)
+	{
+		grandparent->leftChild = node;
+	}
+	else
+	{
+		grandparent->rightChild = node;
+	}
 	if (grandparent->parent != nullptr)
 	{
 		if (grandparent->parent->leftChild == grandparent)
@@ -91,19 +87,8 @@ void zigzag(Node* node)
 			grandparent->parent->rightChild = node;
 		}
 	}
-	if (node->parent->rightChild == node)
-	{
-		grandparent->leftChild = node;
-		zig(node);
-		node->parent = grandparent;
-		zig(node);
-		return;
-	}
-	grandparent->rightChild = node;
 	zig(node);
-	node->parent = grandparent;
 	zig(node);
-	return;
 }
 
 void splay(Tree* tree, Node* node)
@@ -128,7 +113,7 @@ void splay(Tree* tree, Node* node)
 		tree->root = node;
 		return;
 	}
-	zigzag(node);
+	zigZag(node);
 	splay(tree, node);
 	tree->root = node;
 	return;
@@ -238,100 +223,6 @@ Node* minNode(Node* node)
 	return node;
 }
 
-void deleteElement(Tree* tree, const string &key)
-{
-	Node* node = findNode(tree->root, key);
-	if (node == nullptr)
-	{
-		return;
-	}
-	Node* parent = node->parent;
-	if (node->leftChild == nullptr && node->rightChild == nullptr)
-	{
-		if (node->parent != nullptr)
-		{
-			if (node->parent->leftChild == node)
-			{
-				node->parent->leftChild = nullptr;
-			}
-			else
-			{
-				node->parent->rightChild = nullptr;
-			}
-		}
-		else
-		{
-			tree->root = nullptr;
-			delete node;
-			return;
-		}
-		node->parent = nullptr;
-		delete node;
-	}
-	else if (node->leftChild != nullptr && node->rightChild != nullptr)
-	{
-		Node* min = minNode(node);
-		min->parent->leftChild = nullptr;
-		node->key = min->key;
-		node->value = min->value;
-		min->parent = nullptr;
-		delete min;
-	}
-	else if (node->leftChild == nullptr)
-	{
-		Node *tempNode = node;
-		if (node->parent != nullptr)
-		{
-			if (node->parent->rightChild == node)
-			{
-				node->parent->rightChild = node->rightChild;
-			}
-			else
-			{
-				node->parent->leftChild = node->rightChild;
-			}
-		}
-		else
-		{
-			tree->root = node->rightChild;
-			node->rightChild->parent = nullptr;
-			node->rightChild = nullptr;
-			delete node;
-			return;
-		}
-		node->rightChild->parent = node->parent;
-		tempNode->parent = nullptr;
-		delete tempNode;
-	}
-	else
-	{
-		Node *tempNode = node;
-		if (node->parent != nullptr)
-		{
-			if (node->parent->leftChild == node)
-			{
-				node->parent->leftChild = node->leftChild;
-			}
-			else
-			{
-				node->parent->rightChild = node->leftChild;
-			}
-		}
-		else
-		{
-			tree->root = node->leftChild;
-			node->leftChild->parent = nullptr;
-			node->leftChild = nullptr;
-			delete node;
-			return;
-		}
-		node->leftChild->parent = node->parent;
-		tempNode->parent = nullptr;
-		delete tempNode;
-	}
-	splay(tree, parent);
-}
-
 void deleteTree(Tree* tree)
 {
 	while (tree->root != nullptr)
@@ -339,4 +230,75 @@ void deleteTree(Tree* tree)
 		deleteElement(tree, tree->root->key);
 	}
 	delete tree;
+}
+
+Node* deleteNode(Node* node, const string &key)
+{
+	if (node == nullptr)
+	{
+		return node;
+	}
+	if (key < node->key)
+	{
+		node->leftChild = deleteNode(node->leftChild, key);
+	}
+	else if (key > node->key)
+	{
+		node->rightChild = deleteNode(node->rightChild, key);
+	}
+	else if (node->leftChild != nullptr && node->rightChild != nullptr)
+	{
+		node->key = minNode(node->rightChild)->key;
+		node->value = minNode(node->rightChild)->value;
+		node->leftChild->parent = node;
+		node->rightChild->parent = node;
+		node->rightChild = deleteNode(node->rightChild, node->key);
+	}
+	else if (node->leftChild == nullptr && node->rightChild == nullptr)
+	{
+		if (node->parent == nullptr)
+		{
+			delete node;
+			return nullptr;
+		}
+		if (node->parent->leftChild == node)
+		{
+			node->parent->leftChild = nullptr;
+		}
+		else
+		{
+			node->parent->rightChild == nullptr;
+		}
+		node->parent = nullptr;
+		delete node;
+		return nullptr;
+	}
+	else if (node->leftChild == nullptr)
+	{
+		Node* temp = node;
+		node = node->rightChild;
+		node->parent = temp->parent;
+		temp->parent = nullptr;
+		delete temp;
+	}
+	else
+	{
+		Node* temp = node;
+		node = node->leftChild;
+		node->parent = temp->parent;
+		temp->parent = nullptr;
+		delete temp;
+	}
+	return node;
+}
+
+void deleteElement(Tree* tree, const string &key)
+{
+	if (findNode(tree->root, key) == nullptr)
+	{
+		return;
+	}
+	Node* parent = findNode(tree->root, key)->parent;
+	tree->root = deleteNode(tree->root, key);
+	splay(tree, parent);
 }
