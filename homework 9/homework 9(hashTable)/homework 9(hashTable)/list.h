@@ -10,13 +10,13 @@ struct List;
 List* createList();
 
 // Добавляем элемент value в список
-void insert(List *list, std::string element);
+void insert(List *list, const std::string &element);
 
 //Проверяет наличие элемента в списке
-bool isIncludeList(List* list, std::string element);
+bool isIncludeList(List* list, const std::string &element);
 
 //Удаляет элемент из списка
-void deleteElementList(List* list, std::string element);
+void deleteElementList(List* list, const std::string &element);
 
 // Количество элементов в списке
 int sizeList(List* list);

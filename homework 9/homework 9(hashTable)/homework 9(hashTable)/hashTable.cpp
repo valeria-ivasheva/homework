@@ -2,6 +2,7 @@
 #include "list.h"
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 struct HashTable
@@ -19,7 +20,7 @@ HashTable* makeHashTable()
 	return hash;
 }
 
-int hashFunction(char str[100])
+int hashFunction(char str[])
 {
 	int result = 0;
 	int p = 2;
@@ -30,13 +31,13 @@ int hashFunction(char str[100])
 	return result;
 }
 
-void addElement(HashTable* hash, char element[100])
+void addElement(HashTable* hash, char element[])
 {
 	int number = hashFunction(element) % 100;
 	insert(hash->buckets[number], element);
 }
 
-void deleteElement(HashTable* hash, char element[100])
+void deleteElement(HashTable* hash, char element[])
 {
 	int number = hashFunction(element) % 100;
 	deleteElementList(hash->buckets[number], element);
@@ -51,7 +52,7 @@ void deleteHash(HashTable* hash)
 	delete hash;
 }
 
-bool isInclude(HashTable* hash, char element[100])
+bool isInclude(HashTable* hash, char element[])
 {
 	int number = hashFunction(element) % 100;
 	return isIncludeList(hash->buckets[number], element);
