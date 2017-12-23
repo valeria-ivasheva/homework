@@ -6,7 +6,7 @@ struct Node;
 Node *createNode();
 
 //Вставить элемент в дерево
-Node *insertNode(Node *node, char newElement[5]);
+Node *insertNode(Node *node, char newElement[]);
 
 //Удалить дерево
 Node* deleteAllNode(Node* tree);

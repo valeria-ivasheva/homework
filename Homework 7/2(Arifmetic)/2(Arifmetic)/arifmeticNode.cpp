@@ -28,6 +28,7 @@ bool isOperation(char string[5])
 Node *insertNode(Node *node, char newElement[5])
 {
 	Node* nodeNew = new Node;
+<<<<<<< .mine
 	for (int i = 0; i < 5; i++)
 	{
 		nodeNew->value[i] = 0;
@@ -36,6 +37,16 @@ Node *insertNode(Node *node, char newElement[5])
 	{
 		nodeNew->value[i] = newElement[i];
 	}
+=======
+	strcpy(nodeNew->value, newElement);
+
+
+
+
+
+
+
+>>>>>>> .theirs
 	nodeNew->leftChild = nullptr;
 	nodeNew->rightChild = nullptr;
 	nodeNew->parent = node;
@@ -75,17 +86,8 @@ Node* deleteAllNode(Node* node)
 	{
 		return node;
 	}
-	while (node->leftChild != nullptr || node->rightChild != nullptr)
-	{
-		if (node->leftChild != nullptr)
-		{
-			deleteAllNode(node->leftChild);
-		}
-		else
-		{
-			deleteAllNode(node->rightChild);
-		}
-	}
+	deleteAllNode(node->leftChild);
+	deleteAllNode(node->rightChild);
 	if (node->parent == nullptr)
 	{
 		delete node->value;
@@ -166,6 +168,7 @@ int arifmarithmetic(char symbol, int a, int b)
 	}
 	return result;
 }
+
 int resultNode(Node* node)
 {
 	if (isOperation(node->value))

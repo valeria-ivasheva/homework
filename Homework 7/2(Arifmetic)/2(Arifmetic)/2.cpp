@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
 	FILE *tree = fopen("arifmeticTree.txt", "r");
-	Node* node = createNode();
+	Node* node = {};
 	while (!feof(tree))
 	{
 		int symbol = getc(tree);

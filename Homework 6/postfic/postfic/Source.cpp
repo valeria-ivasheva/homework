@@ -40,7 +40,7 @@ void postfic(char symbol, Stack *stack)
 	{
 		if (isdigit(symbol))
 		{
-			push(symbol - 48, stack);
+			push(symbol - '0', stack);
 		}
 		else
 		{

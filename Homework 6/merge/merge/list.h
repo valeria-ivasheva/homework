@@ -1,16 +1,8 @@
 #pragma once
+#include <string>
+struct ListElement;
 
-struct ListElement
-{
-	char name[100];
-	char phone[20];
-	ListElement* next;
-};
-
-struct List
-{
-	ListElement *head;
-};
+struct List;
 
 //Создать список
 List *createList();
@@ -19,7 +11,7 @@ List *createList();
 ListElement* elementNumber(List *list, int number);
 
 //Добавляет новый элемент в конец списка
-void newElement(List* input, char name[100], char phone[20]);
+void newElement(List* input,const std::string &name,const std::string &phone);
 
 //Количество элементов в списке
 int countElement(List *list);
@@ -30,3 +22,8 @@ void replace(List *output, int outputLast, List *input, int inputNew);
 //Удалить список
 void deleteList(List *list);
 
+//Вернуть имя элемента
+std::string returnName(ListElement *element);
+
+//Вернуть номер элемента
+std::string returnPhone(ListElement *element);

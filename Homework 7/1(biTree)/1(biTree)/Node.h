@@ -1,7 +1,5 @@
 #pragma once
 
-struct Node;
-
 //Создать дерево
 Node *createNode();
 

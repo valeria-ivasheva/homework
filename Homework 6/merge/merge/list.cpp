@@ -1,6 +1,21 @@
 #include "list.h"
 #include <string.h>
+#include <string>
 #include <iostream>
+
+using namespace std;
+
+struct ListElement
+{
+	string name;
+	string phone;
+	ListElement* next;
+};
+
+struct List
+{
+	ListElement *head;
+};
 
 List * createList()
 {
@@ -9,6 +24,10 @@ List * createList()
 
 ListElement *elementNumber(List *list, int number)
 {
+	if (list->head == nullptr)
+	{
+		return 0;
+	}
 	int i = 1;
 	ListElement *now = list->head;
 	while (i != number && now->next != nullptr)
@@ -23,36 +42,30 @@ void replace(List *output, int outputLast, List *input, int inputNew)
 {
 	ListElement *newElement = elementNumber(input, inputNew);
 	ListElement *lastElement = elementNumber(output, outputLast);
-	for (int i = 0; i < strlen(lastElement->name); i++)
+	for (int i = 0; i < lastElement->name.length(); i++)
 	{
 		lastElement->name[i] = 0;
 	}
-	for (int i = 0; i < strlen(lastElement->phone); i++)
+	for (int i = 0; i < lastElement->phone.length(); i++)
 	{
 		lastElement->phone[i] = 0;
 	}
-	for (int i = 0; i < strlen(newElement->name); i++)
+	for (int i = 0; i < newElement->name.length(); i++)
 	{
 		lastElement->name[i] = newElement->name[i];
 	}
-	for (int i = 0; i < strlen(newElement->phone); i++)
+	for (int i = 0; i < newElement->phone.length(); i++)
 	{
 		lastElement->phone[i] = newElement->phone[i];
 	}
 	return;
 }
 
-void newElement(List* input, char name[100], char phone[20])
+void newElement(List* input, const string &name, const string &phone)
 {
 	ListElement *temp = new ListElement{};
-	for (int i = 0; i < strlen(name); i++)
-	{
-		temp->name[i] = name[i];
-	}
-	for (int i = 0; i < strlen(phone); i++)
-	{
-		temp->phone[i] = phone[i];
-	}
+	temp->name = name;
+	temp->phone = phone;
 	if (countElement(input) == 0)
 	{
 		input->head = temp;
@@ -103,4 +116,16 @@ void deleteList(List * list)
 		delete nowDelete;
 	}
 	delete list;
+}
+
+string returnName(ListElement *element)
+{
+	string str = element->name;
+	return str;
+}
+
+string returnPhone(ListElement *element)
+{
+	string str = element->phone;
+	return str;
 }

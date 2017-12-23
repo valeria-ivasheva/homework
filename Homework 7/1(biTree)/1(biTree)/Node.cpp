@@ -52,6 +52,11 @@ Node *insertNode(Node *node, int newElement)
 	return node;
 }
 
+BiTree *insertTree(BiTree* tree, int element)
+{
+	insertNode(tree->root, element);
+	return tree;
+}
 void printSortAssending(Node *node)
 {
 	if (node == nullptr)
@@ -113,12 +118,12 @@ Node* deleteNode(Node* node, int element)
 	return node;
 }
 
-Node* deleteAllNode(Node* node)
+void deleteAllTree(BiTree* tree)
 {
 	while (node != nullptr)
 	{
 		node = deleteNode(node, node->value);
 	}
-	return node;
+	
 }
 

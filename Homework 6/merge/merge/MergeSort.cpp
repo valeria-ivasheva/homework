@@ -1,15 +1,20 @@
 #include "list.h"
 #include <string.h>
+#include <string>
 
 using namespace std;
 
-bool simileKey(ListElement *simileLeft, ListElement *simileRight, int k)
+bool compareKeys(ListElement *simileLeft, ListElement *simileRight, int k)
 {
 	if (k == 1)
 	{
-		return strcmp(simileLeft->name, simileRight->name) < 0;
+		string nameRight = returnName(simileRight);
+		string nameLeft = returnName(simileLeft);
+		return strcmp(nameLeft.c_str(), nameRight.c_str()) < 0;
 	}
-	return strcmp(simileLeft->phone, simileRight->phone) < 0;
+	string phoneRight = returnPhone(simileRight);
+	string phoneLeft = returnPhone(simileLeft);
+	return strcmp(phoneLeft.c_str(), phoneRight.c_str()) < 0;
 }
 
 void  mergeSort(int key, List *input, int left, int right)
@@ -20,11 +25,15 @@ void  mergeSort(int key, List *input, int left, int right)
 	}
 	if (right - 1 == left)
 	{
-		if (!simileKey(elementNumber(input,left),elementNumber(input, right), key))
+		if (!compareKeys(elementNumber(input, left), elementNumber(input, right), key))
 		{
 			List * tempList = createList();
-			newElement(tempList, elementNumber(input, left)->name, elementNumber(input, left)->phone);
-			newElement(tempList, elementNumber(input, right)->name, elementNumber(input, right)->phone);
+			string nameLeft = returnName(elementNumber(input, left));
+			string nameRight = returnName(elementNumber(input, right));
+			string phoneLeft = returnPhone(elementNumber(input, left));
+			newElement(tempList, nameLeft, phoneLeft);
+			string phoneRight = returnPhone(elementNumber(input, right));
+			newElement(tempList, nameRight, phoneRight);
 			replace(input, left, tempList, 2);
 			replace(input, right, tempList, 1);
 			deleteList(tempList);
@@ -36,36 +45,45 @@ void  mergeSort(int key, List *input, int left, int right)
 	List *output = createList();
 	int cursorLeft = 0;
 	int cursorRight = 0;
+	ListElement *leftElement = {};
+	ListElement *rightElement{};
 	while (cursorLeft + left <= middle && right - cursorRight > middle)
 	{
-		ListElement *leftElement = elementNumber(input, cursorLeft + left);
-		ListElement *rightElement = elementNumber(input, middle + 1 + cursorRight);
-		if (simileKey(leftElement, rightElement, key))
+		leftElement = elementNumber(input, cursorLeft + left);
+		rightElement = elementNumber(input, middle + 1 + cursorRight);
+		if (compareKeys(leftElement, rightElement, key))
 		{
-			newElement(output, leftElement->name, leftElement->phone);
+			string name = returnName(leftElement);
+			string phone = returnPhone(leftElement);
+			newElement(output, name, phone);
 			cursorLeft++;
 		}
 		else
 		{
-			newElement(output, rightElement->name, rightElement->phone);
+			string name = returnName(rightElement);
+			string phone = returnPhone(rightElement);
+			newElement(output, name, phone);
 			cursorRight++;
 		}
 	}
-	for (cursorLeft;cursorLeft + left <= middle; cursorLeft++)
+	for (; cursorLeft + left <= middle; cursorLeft++)
 	{
+		string name = returnName(leftElement);
+		string phone = returnPhone(leftElement);
 		ListElement *leftElement = elementNumber(input, cursorLeft + left);
-		newElement(output, leftElement->name, leftElement->phone);
+		newElement(output, name, phone);
 	}
-	for (cursorRight;cursorRight + middle + 1 <= right; cursorRight++)
+	for (; cursorRight + middle + 1 <= right; cursorRight++)
 	{
+		string name = returnName(rightElement);
+		string phone = returnPhone(rightElement);
 		ListElement * rightElement = elementNumber(input, middle + 1 + cursorRight);
-		newElement(output, rightElement->name, rightElement->phone);
+		newElement(output, name, phone);
 	}
 	for (int i = 1; i <= cursorLeft + cursorRight; i++)
 	{
-		replace(input, left + i - 1,output, i);
-		input->head->next;
+		replace(input, left + i - 1, output, i);
+		elementNumber(input, 2);
 	}
-	delete output;
-	return;
+	deleteList(output);
 }
