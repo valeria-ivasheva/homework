@@ -51,7 +51,7 @@ int main()
 			cout << "Введите ключ для проверки" << endl;
 			string sKey = "1";
 			cin >> sKey;
-			if (isHaveKey(tree, sKey))
+			if (hasKey(tree, sKey))
 			{
 				cout << "TRUE" << endl;
 			}

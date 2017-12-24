@@ -23,6 +23,17 @@ void zig(Node* node)
 	{
 		return;
 	}
+	if (parent->parent != nullptr)
+	{
+		if (parent->parent->leftChild == parent)
+		{
+			parent->parent->leftChild = node;
+		}
+		else
+		{
+			parent->parent->rightChild = node;
+		}
+	}
 	if (node->parent->leftChild == node)
 	{
 		Node* temp = node->rightChild;
@@ -49,44 +60,12 @@ void zig(Node* node)
 
 void zigZig(Node* node)
 {
-	Node* grandparent = node->parent->parent;
-	if (grandparent->parent != nullptr)
-	{
-		if (grandparent->parent->leftChild == grandparent)
-		{
-			grandparent->parent->leftChild = node;
-		}
-		else
-		{
-			grandparent->parent->rightChild = node;
-		}
-	}
 	zig(node->parent);
 	zig(node);
 }
 
 void zigZag(Node* node)
 {
-	Node* grandparent = node->parent->parent;
-	if (grandparent->leftChild == node->parent)
-	{
-		grandparent->leftChild = node;
-	}
-	else
-	{
-		grandparent->rightChild = node;
-	}
-	if (grandparent->parent != nullptr)
-	{
-		if (grandparent->parent->leftChild == grandparent)
-		{
-			grandparent->parent->leftChild = node;
-		}
-		else
-		{
-			grandparent->parent->rightChild = node;
-		}
-	}
 	zig(node);
 	zig(node);
 }
@@ -105,7 +84,8 @@ void splay(Tree* tree, Node* node)
 	}
 	Node* parent = node->parent;
 	Node* grandparent = parent->parent;
-	bool isZigzig = (grandparent->leftChild == parent && parent->leftChild == node) || (grandparent->rightChild == parent && parent->rightChild == node);
+	bool isZigzig = (grandparent->leftChild == parent && parent->leftChild == node)
+		|| (grandparent->rightChild == parent && parent->rightChild == node);
 	if (isZigzig)
 	{
 		zigZig(node);
@@ -116,7 +96,6 @@ void splay(Tree* tree, Node* node)
 	zigZag(node);
 	splay(tree, node);
 	tree->root = node;
-	return;
 }
 
 
@@ -125,6 +104,8 @@ Tree* createTree()
 	Tree* tree = new Tree;
 	Node* node = new Node;
 	node->parent = nullptr;
+	node->rightChild = nullptr;
+	node->leftChild = nullptr;
 	tree->root = node;
 	return tree;
 }
@@ -207,7 +188,7 @@ string findValue(Tree* tree, const string &key)
 	return value;
 }
 
-bool isHaveKey(Tree* tree, const string &key)
+bool hasKey(Tree* tree, const string &key)
 {
 	Node* node = findNode(tree->root, key);
 	splay(tree, node);
@@ -225,6 +206,12 @@ Node* minNode(Node* node)
 
 void deleteTree(Tree* tree)
 {
+	if (tree->root->leftChild == nullptr && tree->root->rightChild == nullptr)
+	{
+		delete tree->root;
+		delete tree;
+		return;
+	}
 	while (tree->root != nullptr)
 	{
 		deleteElement(tree, tree->root->key);
@@ -267,7 +254,7 @@ Node* deleteNode(Node* node, const string &key)
 		}
 		else
 		{
-			node->parent->rightChild == nullptr;
+			node->parent->rightChild = nullptr;
 		}
 		node->parent = nullptr;
 		delete node;

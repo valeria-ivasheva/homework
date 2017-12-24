@@ -1,26 +1,22 @@
 #pragma once
 #include <string>
 
-using std::string;
-
 struct Tree;
 
 //Создать ассоциативный массив
 Tree* createTree();
 
 //Добавить элемент с ключом и значением 
-Tree* insertValue(Tree* tree, const string &key, const string &value);
+Tree* insertValue(Tree* tree, const std::string &key, const std::string &value);
 
 //Найти элемент по ключу
-string findValue(Tree* tree, const string &key);
+std::string findValue(Tree* tree, const std::string &key);
 
 //Проверить есть ли такой ключ
-bool isHaveKey(Tree* tree, const string &key);
+bool hasKey(Tree* tree, const std::string &key);
 
 //Удалить элемент по ключу
-void deleteElement(Tree* tree, const string &key);
-
-//void printTree(Tree* tree);
+void deleteElement(Tree* tree, const std::string &key);
 
 //Удалить ассоциативный массив
 void deleteTree(Tree* tree);
