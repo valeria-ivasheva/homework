@@ -1,10 +1,13 @@
 #include <iostream>
+
 using namespace std;
 
-void dijkstra(int number, int countOfCity, int(&arrayOfRoads)[100][100], int(&arrayOfState)[2][100])
+const int maxCount = 100;
+
+void dijkstra(int number, int countOfCity, int arrayOfRoads[100][maxCount], int arrayOfState[2][maxCount])
 {
-	bool visits[100] = { false };
-	int length[100] = { 0 };
+	bool visits[maxCount] = { false };
+	int length[maxCount] = { 0 };
 	for (int i = 0; i < countOfCity; i++)
 	{
 		length[i] = INT_MAX;
@@ -25,7 +28,8 @@ void dijkstra(int number, int countOfCity, int(&arrayOfRoads)[100][100], int(&ar
 		visits[now] = true;
 		for (int i = 0; i < countOfCity; i++)
 		{
-			if (!visits[i] && arrayOfRoads[now][i] > 0 && length[now] != 2000000000 && (length[now] + arrayOfRoads[now][i] < length[i]))
+			if (!visits[i] && arrayOfRoads[now][i] > 0 && length[now] != INT_MAX &&
+				(length[now] + arrayOfRoads[now][i] < length[i]))
 			{
 				length[i] = length[now] + arrayOfRoads[now][i];
 			}
@@ -41,54 +45,8 @@ void dijkstra(int number, int countOfCity, int(&arrayOfRoads)[100][100], int(&ar
 	}
 }
 
-int main()
+void printResult(int countOfCity, int arrayOfState[2][maxCount])
 {
-	int arrayOfRoads[100][100] = { 0 };
-	FILE *text = fopen("text.txt", "r");
-	if (text == nullptr)
-	{
-		cout << "Can't open file" << endl;
-		return -1;
-	}
-	int arrayOfState[2][100] = { 0 };
-	int countOfCity = 0;
-	int countOfRoads = 0;
-	fscanf(text, "%d", &countOfCity);
-	fscanf(text, "%d", &countOfRoads);
-	for (int i = 0; i < countOfRoads; i++)
-	{
-		int cityA = 0;
-		int cityB = 0;
-		int length = 0;
-		fscanf(text, "%d%d%d", &cityA, &cityB, &length);
-		arrayOfRoads[cityA][cityB] = length;
-		arrayOfRoads[cityB][cityA] = length;
-	}
-	int countOfCapital = 0;
-	fscanf(text, "%d", &countOfCapital);
-	for (int i = 0; i < countOfCapital; i++)
-	{
-		int capital = 0;
-		fscanf(text, "%d", &capital);
-		arrayOfState[0][capital] = -1;
-		for (int i = 0; i < countOfCity; i++)
-		{
-			arrayOfRoads[i][capital] = 0;
-		}
-	}
-	fclose(text);
-	for (int i = 0; i < countOfCity; i++)
-	{
-		arrayOfState[1][i] = INT_MAX;
-	}
-	for (int i = 0; i < countOfCity; i++)
-	{
-		if (arrayOfState[0][i] != -1)
-		{
-			continue;
-		}
-		dijkstra(i, countOfCity, arrayOfRoads, arrayOfState);
-	}
 	setlocale(LC_ALL, "Russian");
 	for (int i = 0; i < countOfCity; i++)
 	{
@@ -111,5 +69,61 @@ int main()
 			cout << endl;
 		}
 	}
+}
+
+void locationOfTheCapital(int countOfCity, int arrayOfState[2][maxCount], int arrayOfRoads[maxCount][maxCount])
+{
+	for (int i = 0; i < countOfCity; i++)
+	{
+		arrayOfState[1][i] = INT_MAX;
+	}
+	for (int i = 0; i < countOfCity; i++)
+	{
+		if (arrayOfState[0][i] != -1)
+		{
+			continue;
+		}
+		dijkstra(i, countOfCity, arrayOfRoads, arrayOfState);
+	}
+}
+
+int main()
+{
+	int arrayOfRoads[maxCount][maxCount] = { 0 };
+	int arrayOfState[2][maxCount] = { 0 };
+	int countOfCity = 0;
+	int countOfRoads = 0;
+	int countOfCapital = 0;
+	FILE *text = fopen("text.txt", "r");
+	if (text == nullptr)
+	{
+		cout << "Can't open file" << endl;
+		return -1;
+	}
+	fscanf(text, "%d", &countOfCity);
+	fscanf(text, "%d", &countOfRoads);
+	for (int i = 0; i < countOfRoads; i++)
+	{
+		int cityA = 0;
+		int cityB = 0;
+		int length = 0;
+		fscanf(text, "%d%d%d", &cityA, &cityB, &length);
+		arrayOfRoads[cityA][cityB] = length;
+		arrayOfRoads[cityB][cityA] = length;
+	}
+	fscanf(text, "%d", &countOfCapital);
+	for (int i = 0; i < countOfCapital; i++)
+	{
+		int capital = 0;
+		fscanf(text, "%d", &capital);
+		arrayOfState[0][capital] = -1;
+		for (int i = 0; i < countOfCity; i++)
+		{
+			arrayOfRoads[i][capital] = 0;
+		}
+	}
+	fclose(text);
+	locationOfTheCapital(countOfCity, arrayOfState, arrayOfRoads);
+	printResult(countOfCity, arrayOfState);
 	return 0;
 }
