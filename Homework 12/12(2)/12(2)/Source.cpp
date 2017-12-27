@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int get(int x, int (&parent)[10])
+int get(int x, int parent[])
 {
 	int root = x;
 	while (parent[root] != root)
@@ -23,7 +23,7 @@ int get(int x, int (&parent)[10])
 	return root;
 }
 
-void unionNode(int x, int y, int(&parent)[10], int(&rank)[10])
+void unionNode(int x, int y, int parent[], int rank[])
 {
 	x = get(x, parent);
 	y = get(y, parent);
@@ -52,7 +52,7 @@ struct Edge
 	int weight;
 };
 
-bool compare(const Edge&a, const Edge&b) 
+bool compare(const Edge &a, const Edge &b) 
 {
 	return a.weight < b.weight;
 }
@@ -62,10 +62,10 @@ int main()
 	FILE *text = fopen("text.txt", "r");
 	if (text == nullptr)
 	{
-		cout << "Don't open file" << endl;
+		cout << "Can't open file" << endl;
 		return -1;
 	}
-	vector<Edge> graf;
+	vector<Edge> graph;
 	int count = 0;
 	char str[100] = "";
 	int numberLine = 0;
@@ -90,13 +90,13 @@ int main()
 			if (numberLine < numberColumn && stoi(tempStr) != 0)
 			{
 				Edge temp = { numberLine, numberColumn, stoi(tempStr) };
-				graf.push_back(temp);
+				graph.push_back(temp);
 			}
 			i++;
 		}
 	}
 	fclose(text);
-	sort(graf.begin(), graf.end(), compare);
+	sort(graph.begin(), graph.end(), compare);
 	count = numberLine;
 	int parent[10] = {};
 	int rank[10] = {};
@@ -105,11 +105,11 @@ int main()
 		parent[i] = i;
 		rank[i] = 0;
 	}
-	int size = graf.size();
+	int size = graph.size();
 	for (int i = 0; i < size; i++)
 	{
-		int from = graf[i].firstVertex;
-		int to = graf[i].nextVertex;
+		int from = graph[i].firstVertex;
+		int to = graph[i].nextVertex;
 		if (get(from, parent) != get(to, parent))
 		{
 			unionNode(from, to, parent, rank);
