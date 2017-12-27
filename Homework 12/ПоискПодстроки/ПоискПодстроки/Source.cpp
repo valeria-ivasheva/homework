@@ -21,12 +21,12 @@ int algBMX(char *string, char *findString)
 	List* list = createList();
 	stopSymbol(list, findString);
 	int i = strlen(findString) - 1;
-	int lengthFind = strlen(findString);
-	int lengthStrinf = strlen(string);
-	while (i < lengthStrinf)
+	const int lengthFind = strlen(findString);
+	const int lengthString = strlen(string);
+	while (i < lengthString)
 	{
 		int j = 0;
-		while (i < lengthStrinf &&j < lengthFind && findString[lengthFind - j - 1] == string[i - j])
+		while (i < lengthString && j < lengthFind && findString[lengthFind - j - 1] == string[i - j])
 		{
 			j++;
 		}
@@ -53,9 +53,11 @@ int main()
 	if (text == nullptr)
 	{
 		cout << "Файл не найден" << endl;
+		return -1;
 	}
 	char string[200] = "";
 	char findString[100] = "";
+	cout << "Что мы будем искать?" << endl;
 	cin >> findString;
 	bool findNot = true;
 	int countLine = 0;

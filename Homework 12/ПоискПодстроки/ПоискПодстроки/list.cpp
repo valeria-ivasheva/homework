@@ -20,14 +20,11 @@ List* createList()
 
 void deleteList(List *list)
 {
-	if (list->head != nullptr)
+	while (list->head)
 	{
-		while (!list->head)
-		{
-			ListElement *nowDelete = list->head;
-			list->head = nowDelete->next;
-			delete nowDelete;
-		}
+		ListElement *nowDelete = list->head;
+		list->head = nowDelete->next;
+		delete nowDelete;
 	}
 	delete list;
 }
@@ -109,7 +106,7 @@ bool haveElement(List* list, char key)
 int numberOfJump(List* list, char key)
 {
 	int i = 0;
-	int count = countElementList(list);
+	const int count = countElementList(list);
 	while (listIndex(list, i)->key != key && i < count)
 	{
 		i++;
